@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats de recherche</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Résultats pour : {{query}}</h1>
+        
+        <h2>Google Scholar</h2>
+        <ul>
+            {{google_scholar_results}}
+        </ul>
+        
+    <h2>Semantic Scholar</h2>
+        <ul>
+            {{semantic_results}}
+        </ul>
+        
+        <h2>GitHub</h2>
+        <ul>
+            {{github_results}}
+        </ul>
+        <a href="/">Nouvelle recherche</a>
+    </div>
+</body>
+</html>
