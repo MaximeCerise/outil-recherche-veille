@@ -3,6 +3,8 @@ import requests
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import xml.etree.ElementTree as ET
+import matplotlib.pyplot as plt
+import os
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -21,12 +23,12 @@ def search_papers(query: str):
         "sort": "year"  # Trie par année de publication (du plus récent au plus ancien)
     }
     response = requests.get(SEMANTIC_SCHOLAR_API, params=params)
-    
     if response.status_code == 200:
         data = response.json()
         return data.get("data", [])
     else:
         return {"error": f"API request failed with status {response.status_code}"}
+    
 @app.get("/search_github")
 def search_github(query: str):
     params = {"q": query, "sort": "stars", "order": "desc"}
@@ -98,7 +100,6 @@ def search_google_scholar(query: str):
             "summary": summary,
             "link": link
         })
-    print(results)
     return results
 
 @app.get("/", response_class=HTMLResponse)
@@ -108,6 +109,7 @@ def home():
 
 @app.get("/results", response_class=HTMLResponse)
 def show_results(query: str):
+
     papers = search_papers(query)
     github_repos = search_github(query)
     scinapse_results = search_scinapse(query)
